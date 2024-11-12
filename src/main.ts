@@ -14,12 +14,7 @@ async function bootstrap() {
       },
     }),
   );
-  app.enableCors({
-    origin: '*',  // Permitir todos los orígenes
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',  // Métodos permitidos
-    allowedHeaders: 'Content-Type, Accept, Authorization',  // Cabeceras permitidas
-    credentials: true,  // Permitir el uso de cookies y credenciales
-  });
+ 
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
