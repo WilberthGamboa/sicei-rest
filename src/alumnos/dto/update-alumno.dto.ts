@@ -1,24 +1,24 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString, Max, Min } from "class-validator";
+import { IsString, IsOptional, IsNotEmpty, IsNumber } from 'class-validator';
 
 export class UpdateAlumnoDto {
-    @IsNumber()
-    @Min(0)
-   
-    @IsNotEmpty()
-  id:number;
-   
-    @IsString()
-    @IsNotEmpty()
-    nombres: string;
-  
-    @IsString()
-    @IsNotEmpty()
-    apellidos: string;
-  
-    @IsString()
-    @IsNotEmpty()
-    matricula: string;
-  
-    @IsNumber()
-    promedio: number;
-  }
+  @IsString()
+  @IsOptional()
+  matricula?: string;
+
+  @IsString()
+
+  @IsNotEmpty() // Asegura que 'nombres' no sea vacío ni null
+  nombres: string;
+
+  @IsString()
+  @IsOptional()
+  apellidos?: string;
+
+  @IsNumber()
+  @IsOptional()
+  promedio?: number;
+
+  @IsString()
+  @IsOptional()
+  password?: string;
+}

@@ -1,9 +1,10 @@
-import { IsInt, IsNotEmpty, IsOptional, IsString, Min } from 'class-validator';
+// create-profesor.dto.ts
+import { IsString, IsInt, IsNotEmpty } from 'class-validator';
 
 export class CreateProfesorDto {
-  @IsInt()
-  @IsOptional() // El campo 'id' es opcional en algunos casos, como al crear un nuevo profesor
-  id?: number;
+  @IsString()
+  @IsNotEmpty()
+  numeroEmpleado: string;
 
   @IsString()
   @IsNotEmpty()
@@ -14,10 +15,5 @@ export class CreateProfesorDto {
   apellidos: string;
 
   @IsInt()
-  @Min(0)
-  numeroEmpleado: number;
-
-  @IsInt()
-  @Min(0)
   horasClase: number;
 }

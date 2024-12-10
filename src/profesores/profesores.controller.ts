@@ -1,51 +1,50 @@
-import { Controller, Get, Post, Body, Param, Put, Delete, NotFoundException, BadRequestException, HttpException } from '@nestjs/common';
-
-
+import { Controller, Get, Post, Body, Param, Put, Delete, HttpException } from '@nestjs/common';
 import { ProfesoresService } from './profesores.service';
-
-import { UpdateProfesoreDto } from './dto/update-profesore.dto';
 import { CreateProfesorDto } from './dto/create-profesore.dto';
-
+import { UpdateProfesorDto } from './dto/update-profesore.dto';
 
 
 @Controller('profesores')
 export class ProfesoresController {
-  constructor(private readonly alumnosService: ProfesoresService) {}
+  constructor(private readonly profesoresService: ProfesoresService) {}
 
-  // GET all alumnos
+  // Obtener todos los profesores
   @Get()
-  getAlumnos() {
-    return this.alumnosService.findAll();
+  getProfesores() {
+    return this.profesoresService.findAll();
   }
 
-  // POST a new alumno
+  // Crear un nuevo profesor
   @Post()
-  createAlumno(@Body() createAlumnoDto: CreateProfesorDto) {
-    return this.alumnosService.create(createAlumnoDto);
+  createProfesor(@Body() createProfesorDto: CreateProfesorDto) {
+    return this.profesoresService.create(createProfesorDto);
   }
 
-  // GET alumno by id
+  // Obtener un profesor por su ID
   @Get(':id')
-  getAlumno(@Param('id') id: number) {
-    return this.alumnosService.findOne(+id);
+  getProfesor(@Param('id') id: number) {
+    return this.profesoresService.findOne(id);
   }
 
-  // PUT update an existing alumno
+  // Actualizar un profesor existente
   @Put(':id')
-  updateAlumno(@Param('id') id: number, @Body() updateAlumnoDto: UpdateProfesoreDto) {
-    console.log('Estamos en put')
-    return this.alumnosService.update(+id, updateAlumnoDto);
+  updateProfesor(@Param('id') id: number, @Body() updateProfesorDto: UpdateProfesorDto) {
+    return this.profesoresService.update(id, updateProfesorDto);
   }
 
-  // DELETE an alumno
+  // Eliminar un profesor por su ID
+  @Delete(':id')
+  deleteProfesor(@Param('id') id: number) {
+    return this.profesoresService.delete(id);
+  }
 
   @Delete()
-  deleteInvalid() {
-    throw new HttpException('Método no permitido', 405);
-  }
-
-  @Delete(':id')
-  deleteAlumno(@Param('id') id: number) {
-    return this.alumnosService.delete(id);
-  }
+deleteInvalid() {
+  throw new HttpException('Método no permitido', 405);
 }
+}
+
+
+
+
+

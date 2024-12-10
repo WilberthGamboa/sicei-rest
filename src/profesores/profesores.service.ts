@@ -1,66 +1,49 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
-import { UpdateProfesoreDto } from './dto/update-profesore.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Profesor } from './entities/profesore.entity';
 import { CreateProfesorDto } from './dto/create-profesore.dto';
-
-
+import { UpdateProfesorDto } from './dto/update-profesore.dto';
 
 
 @Injectable()
 export class ProfesoresService {
-  private alumnos = [
-   
-  ];
+  constructor(
+    @InjectRepository(Profesor)
+    private profesoresRepository: Repository<Profesor>,
+  ) {}
 
-  // Obtener todos los alumnos
+  // Obtener todos los profesores
   findAll() {
-    return this.alumnos;
+    return this.profesoresRepository.find();
   }
 
-  // Obtener un alumno por su ID
-  findOne(id: number) {
-    console.log(id)
-    const alumno = this.alumnos.find((alumno) => alumno.id === id);
-    if (!alumno) {
-      throw new NotFoundException(`Alumno with id ${id} not found`);
+  // Obtener un profesor por su ID
+  async findOne(id: number) {
+    const profesor = await this.profesoresRepository.findOneBy({id});
+    if (!profesor) {
+      throw new NotFoundException(`Profesor con id ${id} no encontrado`);
     }
-    console.log(this.alumnos)
-    return alumno;
+    return profesor;
   }
 
-  // Crear un nuevo alumno
-  create(createAlumnoDto: CreateProfesorDto) {
-   
-
-    const newAlumno = { ...createAlumnoDto, id: createAlumnoDto.id };
-    this.alumnos.push(newAlumno);
-    console.log(this.alumnos)
-    return newAlumno;
+  // Crear un nuevo profesor
+  async create(createProfesorDto: CreateProfesorDto) {
+    const newProfesor = this.profesoresRepository.create(createProfesorDto);
+    return await this.profesoresRepository.save(newProfesor);
   }
 
-  // Actualizar un alumno existente
-  update(id: number, updateAlumnoDto: UpdateProfesoreDto) {
-    const existingAlumno = this.findOne(id);
-    
-   
-
-    const updatedAlumno = { ...existingAlumno, ...updateAlumnoDto };
-    const index = this.alumnos.findIndex((alumno) => alumno.id === id);
-    this.alumnos[index] = updatedAlumno;
-    console.log(this.alumnos)
-    return updatedAlumno;
+  // Actualizar un profesor existente
+  async update(id: number, updateProfesorDto: UpdateProfesorDto) {
+    const profesor = await this.findOne(id);
+    const updatedProfesor = Object.assign(profesor, updateProfesorDto);
+    return await this.profesoresRepository.save(updatedProfesor);
   }
 
-  // Eliminar un alumno por su ID
-  delete(id: number) {
-    const index = this.alumnos.findIndex((alumno) => alumno.id === id);
-    if (index === -1) {
-      throw new NotFoundException(`Alumno with id ${id} not found`);
-    }
-    this.alumnos.splice(index, 1);
-    console.log(this.alumnos)
-    return { message: 'Alumno deleted successfully' };
+  // Eliminar un profesor por su ID
+  async delete(id: number) {
+    const profesor = await this.findOne(id);
+    await this.profesoresRepository.remove(profesor);
+    return { message: 'Profesor eliminado exitosamente' };
   }
-
-  // Generar un ID aleatorio para el nuevo alumno
-
 }

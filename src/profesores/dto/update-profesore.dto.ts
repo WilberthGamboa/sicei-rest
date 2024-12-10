@@ -1,26 +1,19 @@
-import { IsInt, IsNotEmpty, IsOptional, IsString, Min } from 'class-validator';
+import { IsString, IsInt, IsOptional } from 'class-validator';
 
+export class UpdateProfesorDto {
+  @IsString()
+  @IsOptional()
+  numeroEmpleado?: string;
 
+  @IsString()
+  @IsOptional()
+  nombres?: string;
 
+  @IsString()
+  @IsOptional()
+  apellidos?: string;
 
-export class UpdateProfesoreDto {
-    @IsInt()
-    @IsOptional() // El campo 'id' es opcional en algunos casos, como al crear un nuevo profesor
-    id?: number;
-  
-    @IsString()
-    @IsNotEmpty()
-    nombres: string;
-  
-    @IsString()
-    @IsNotEmpty()
-    apellidos: string;
-  
-    @IsInt()
-    @Min(0)
-    numeroEmpleado: number;
-  
-    @IsInt()
-    @Min(0)
-    horasClase: number;
-  }
+  @IsInt()
+  @IsOptional()
+  horasClase?: number;
+}
